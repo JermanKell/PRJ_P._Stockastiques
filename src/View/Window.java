@@ -21,7 +21,7 @@ public class Window extends JFrame {
 
     public Window() {
         setTitle("Stockasticity problems solver");
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setAlwaysOnTop(true);
         ConfigureView();

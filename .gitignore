@@ -13,6 +13,7 @@
 #IntelliJ
 .idea/
 out/
+*.iml
 
 # Package Files #
 *.jar

@@ -1,10 +1,10 @@
-import Model.FileAttente;
+import Model.FileAttenteMM1;
+import View.Window;
 
 public class Main {
 
     public static void main(String [] args)
     {
-        FileAttente fa = new FileAttente(8, 24);
-        System.out.println(fa.PXt(6));
+        Window w = new Window();
     }
 }
