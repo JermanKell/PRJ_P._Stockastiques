@@ -21,7 +21,6 @@ public class FileAttente {
         this.s = s;
     }
 
-<<<<<<< HEAD:src/FileAttente.java
     //nb moyen de clients dans la file
     public double Lq()
     {
@@ -39,6 +38,5 @@ public class FileAttente {
     {
 
     }
-=======
->>>>>>> b4a543ac30b9d8248d90aa7b68a91f751b571153:src/Model/FileAttente.java
+
 }
