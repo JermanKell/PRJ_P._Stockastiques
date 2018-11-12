@@ -3,10 +3,10 @@ package Model;
 public class FileAttente {
 
     //arrivee
-    private int λ;
+    private double λ;
 
     //service
-    private int μ;
+    private double μ;
 
     //
     private double ρ;
@@ -15,6 +15,7 @@ public class FileAttente {
     {
         this.λ = λ;
         this.μ = μ;
+        ρ = (this.λ/this.μ);
     }
 
     //nb moyen de clients dans la file
@@ -41,5 +42,20 @@ public class FileAttente {
         return (1/(μ-λ));
     }
 
+    //probabilite de se trouver a l'etat j
+    public double q(int j) throws Exception
+    {
+        if(ρ>1)
+            throw new Exception("ρ doit être strictement inferieur a 1");
+        if(j==0)
+            return (1-ρ);
+        else
+            return (Math.pow(ρ, j)*(1-ρ));
+    }
 
+    //probabilite d'avoir j arrivee sur un intervalle de temps
+    public double PXt(int j)
+    {
+        return 0;
+    }
 }
