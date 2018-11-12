@@ -1,5 +1,7 @@
 package Model;
 
+import java.math.BigInteger;
+
 public class FileAttente {
 
     //arrivee
@@ -54,8 +56,18 @@ public class FileAttente {
     }
 
     //probabilite d'avoir j arrivee sur un intervalle de temps
-    public double PXt(int j)
-    {
-        return 0;
+    // identique à ceux donnés en paramètre au constructreur de cet objet
+    public double PXt(int j) { return (Math.pow(λ, j)/(factorial(j).doubleValue()))*Math.exp(-λ); }
+
+    public static BigInteger factorial(long number) {
+        BigInteger result = BigInteger.valueOf(1);
+
+        for (long factor = 2; factor <= number; factor++) {
+            result = result.multiply(BigInteger.valueOf(factor));
+        }
+
+        return result;
     }
 }
+
+
