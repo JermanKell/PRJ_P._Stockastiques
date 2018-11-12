@@ -2,7 +2,7 @@ package Model;
 
 import java.math.BigInteger;
 
-public class FileAttente {
+public class FileAttenteMM1 {
 
     //arrivee
     private double λ;
@@ -13,7 +13,7 @@ public class FileAttente {
     //
     private double ρ;
 
-    public FileAttente(int λ, int μ)
+    public FileAttenteMM1(int λ, int μ)
     {
         this.λ = λ;
         this.μ = μ;
