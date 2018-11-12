@@ -19,6 +19,19 @@ public class FileAttente {
         this.s = s;
     }
 
+    //nb moyen de clients dans la file
+    public double Lq()
+    {
+
+        return ((Math.pow(λ, 2))/(μ*(μ-λ)));
+    }
+
+    //nb moyen L de clients dans le système
+    public double L()
+    {
+        return (λ/(μ-λ));
+    }
+
     public static void main(String [] args)
     {
 
