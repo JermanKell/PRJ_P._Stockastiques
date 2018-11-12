@@ -21,8 +21,4 @@ public class FileAttente {
         this.s = s;
     }
 
-    public static void main(String [] args)
-    {
-
-    }
 }
