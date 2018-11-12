@@ -33,10 +33,6 @@ public class FileAttente {
     {
         return (λ/(μ-λ));
     }
-
-    public static void main(String [] args)
-    {
-
-    }
+    
 
 }
