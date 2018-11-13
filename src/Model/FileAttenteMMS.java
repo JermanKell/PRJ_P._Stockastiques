@@ -68,42 +68,51 @@ public class FileAttenteMMS {
         nbClients = clients;
 
         ρ = (λ/(nbServeurs*μ));
+        Calculs();
+    }
+
+    // Lancement de tous les calculs
+    private void Calculs() {
+        q();
+        Lq();
+        L();
+        Wq();
+        W();
     }
 
     // Calcul de la proba d'etre dans l'etat initial
-    public void q() {
-        double denom = 0.0;
+    private void q() {
+        double denom = 0.0F;
 
-        for (int j = 0; j < nbServeurs-1; j++) {
-            denom += (Math.pow(ρ*nbServeurs, j) / factorial(j).doubleValue()) +
-                    (Math.pow(ρ*nbServeurs, nbServeurs) / (factorial(nbServeurs).doubleValue() * (1-ρ)));
-        }
+        for (int j = 0; j < nbServeurs; j++) { denom += (Math.pow(ρ*nbServeurs, j) / factorial(j).doubleValue()); }
+
+        denom += (Math.pow(ρ*nbServeurs, nbServeurs) / (factorial(nbServeurs).doubleValue() * (1-ρ)));
 
         q0 = 1/denom;
     }
 
     // Calcul du nombre de clients dans la queue
-    public void Lq() {
+    private void Lq() {
         Lq = q0 * ((Math.pow(ρ*nbServeurs, nbServeurs) * ρ) / (factorial(nbServeurs).doubleValue() * Math.pow(1-ρ, 2)));
     }
 
     // Calcul du nombre de clients dans le systeme
-    public void L() {
+    private void L() {
         L = Lq + (λ / μ);
     }
 
     // Calcul de la duree moyenne d'attente dans le systeme
-    public void Wq() {
+    private void Wq() {
         Wq = Lq / λ;
     }
 
     // Calcul de la duree moyenne d'attente dans la file d'attente
-    public void W() {
+    private void W() {
         W = Wq + (1 / μ);
     }
 
     // Calcul du factoriel pour un nombre passe en parametre de la methode
-    public static BigInteger factorial(long number) {
+    private static BigInteger factorial(long number) {
         BigInteger result = BigInteger.valueOf(1);
 
         for (long factor = 2; factor <= number; factor++) {
