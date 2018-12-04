@@ -1,23 +1,13 @@
 package Model;
 
-import java.math.BigInteger;
+import static Model.Maths.factorial;
 
-public class FileAttenteMM1 {
-
-    //arrivee
-    private double λ;
-
-    //service
-    private double μ;
-
-    //
-    private double ρ;
+public class FileAttenteMM1 extends FileAttente {
 
     public FileAttenteMM1(int λ, int μ)
     {
-        this.λ = λ;
-        this.μ = μ;
-        ρ = (this.λ/this.μ);
+        super(λ, μ);
+        ρ = (λ/μ);
     }
 
     //nb moyen de clients dans la file
@@ -48,7 +38,7 @@ public class FileAttenteMM1 {
     public double q(int j) throws Exception
     {
         if(ρ>1)
-            throw new Exception("ρ doit être strictement inferieur a 1");
+            throw new Exception("ρ must be minor to 1");
         if(j==0)
             return (1-ρ);
         else
@@ -57,17 +47,9 @@ public class FileAttenteMM1 {
 
     //probabilite d'avoir j arrivee sur un intervalle de temps
     // identique à ceux donnés en paramètre au constructreur de cet objet
-    public double PXt(int j) { return (Math.pow(λ, j)/(factorial(j).doubleValue()))*Math.exp(-λ); }
+    public double PXt(int j) { return (Math.pow(λ, j)/(factorial(j).doubleValue()))* Math.exp(-λ); }
 
-    public static BigInteger factorial(long number) {
-        BigInteger result = BigInteger.valueOf(1);
 
-        for (long factor = 2; factor <= number; factor++) {
-            result = result.multiply(BigInteger.valueOf(factor));
-        }
-
-        return result;
-    }
 }
 
 
