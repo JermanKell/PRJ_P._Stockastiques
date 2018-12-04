@@ -2,9 +2,13 @@ package Model;
 
 import static Model.Maths.factorial;
 
-public class FileAttenteMM1 extends FileAttente {
+///////////////////////////////////////////////////////////
+//////////////  CHANGEMENT: MM1 VERS MM1K A FAIRE   ///////
+///////////////////////////////////////////////////////////
+//TODO: Transformer les formules pour MM1K
+public class FileAttenteMM1K extends FileAttente {
 
-    public FileAttenteMM1(int λ, int μ)
+    public FileAttenteMM1K(int λ, int μ)
     {
         super(λ, μ);
         ρ = (λ/μ);

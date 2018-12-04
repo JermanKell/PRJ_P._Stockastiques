@@ -1,13 +1,8 @@
 package Model;
 
-import java.math.BigInteger;
+import static Model.Maths.factorial;
 
-public class FileAttenteMMS {
-   // Parametre du processus d'arrivee
-    private double λ = 0.0;
-
-    // Parametre du processus de service
-    private double μ = 0.0;
+public class FileAttenteMMS extends FileAttente {
 
     public double getΡ() {
         return ρ;
@@ -16,6 +11,8 @@ public class FileAttenteMMS {
     public double getQ0() {
         return q0;
     }
+
+    public double getQj(int j) { return  Qj(j); }
 
     public double getL() {
         return L;
@@ -33,47 +30,28 @@ public class FileAttenteMMS {
         return W;
     }
 
-    // Taux de saturation du systeme
-    private double ρ = 0.0;
+    public double getPrDureeSejSys(double t) { return PrDureeSejSys(t); }
 
-    // Nombre de serveurs de l'exemple
-    private int nbServeurs = 0;
+    public double getPrDureeSejQueue0() { return PrDureeSejQueue0(); }
 
-    // Nombre de clients
-    private int nbClients = 0;
+    public double getPrDureeSejQueue(double t) { return PrDureeSejQueue(t); }
 
-
-    //////// Resultat a retourner \\\\\\\\\\\\\
-    // Proba d'etre dans l'etat initial
-    private double q0 = 0.0;
-
-    // Nombre de clients dans le systeme
-    private double L = 0.0;
-
-    // Nombre de clients dans la file d'attente
-    private double Lq = 0.0;
-
-    // Duree d'attente dans le systeme
-    private double Wq = 0.0;
-
-    // Duree d'attente dans la file d'attente
-    private double W = 0.0;
-
+    // Nombre de serveurs
+    private int s = 0;
 
     // Constructeur de la classe
-    public FileAttenteMMS(double lambda, double mu, int serveurs, int clients) {
-        λ = lambda;
-        μ = mu;
-        nbServeurs = serveurs;
-        nbClients = clients;
+    public FileAttenteMMS(double lambda, double mu, int serveurs) {
 
-        ρ = (λ/(nbServeurs*μ));
+        super(lambda, mu);
+        s = serveurs;
+        ρ = (λ/(s*μ));
+
         Calculs();
     }
 
     // Lancement de tous les calculs
-    private void Calculs() {
-        q();
+    public void Calculs() {
+        q0();
         Lq();
         L();
         Wq();
@@ -81,19 +59,26 @@ public class FileAttenteMMS {
     }
 
     // Calcul de la proba d'etre dans l'etat initial
-    private void q() {
+    private void q0() {
         double denom = 0.0F;
 
-        for (int j = 0; j < nbServeurs; j++) { denom += (Math.pow(ρ*nbServeurs, j) / factorial(j).doubleValue()); }
+        for (int j = 0; j < s; j++) { denom += (Math.pow(ρ*s, j) / factorial(j).longValue()); }
 
-        denom += (Math.pow(ρ*nbServeurs, nbServeurs) / (factorial(nbServeurs).doubleValue() * (1-ρ)));
+        denom += (Math.pow(ρ*s, s) / (factorial(s).doubleValue() * (1-ρ)));
 
         q0 = 1/denom;
     }
 
+    // Calcul proba d'être a l'etat j
+    private double Qj(int j) {
+        if (j <=0) { throw new IllegalArgumentException("Paramètre j doit être supérieur à 0"); }
+        else if (j < s) { return (Math.pow(ρ*s, j)/factorial(j).longValue())*q0; }
+        else { return ((Math.pow(s, s)*Math.pow(ρ, j))/factorial(s).longValue())*q0; }
+    }
+
     // Calcul du nombre de clients dans la queue
     private void Lq() {
-        Lq = q0 * ((Math.pow(ρ*nbServeurs, nbServeurs) * ρ) / (factorial(nbServeurs).doubleValue() * Math.pow(1-ρ, 2)));
+        Lq = q0 * ((Math.pow(ρ*s, s) * ρ) / (factorial(s).longValue() * Math.pow(1-ρ, 2)));
     }
 
     // Calcul du nombre de clients dans le systeme
@@ -101,26 +86,31 @@ public class FileAttenteMMS {
         L = Lq + (λ / μ);
     }
 
-    // Calcul de la duree moyenne d'attente dans le systeme
+    // Calcul de la duree moyenne d'attente dans la queue
     private void Wq() {
         Wq = Lq / λ;
     }
 
-    // Calcul de la duree moyenne d'attente dans la file d'attente
+    // Calcul de la duree moyenne d'attente dans le systeme
     private void W() {
         W = Wq + (1 / μ);
     }
 
-    // Calcul du factoriel pour un nombre passe en parametre de la methode
-    private static BigInteger factorial(long number) {
-        BigInteger result = BigInteger.valueOf(1);
-
-        for (long factor = 2; factor <= number; factor++) {
-            result = result.multiply(BigInteger.valueOf(factor));
-        }
-
-        return result;
+    // Calcul proba qu'un client reste t ou plus dans le systeme
+    private double PrDureeSejSys(double t) {
+        if(t<=0) { throw new IllegalArgumentException("t doit être positif non nul"); }
+        else { return Math.exp(-μ * t) *
+                (1 + ((q0 * Math.pow(ρ * s, s)) / (factorial(s).longValue() * (1 - ρ))) *
+                ((1 - Math.exp(-μ * t * (s - 1 - (ρ * s)))) / (s - 1 - (ρ * s)))); }
     }
 
+    // Calcul proba qu'un client n'a pas de temps d'attente (sans service)
+    private double PrDureeSejQueue0() {
+        return (q0 * Math.pow(ρ * s, s))/(factorial(s).longValue()*(1 - ρ));
+    }
 
+    // Calcul proba qu'un client reste t ou plus dans la queue (sans service)
+    private double PrDureeSejQueue(double t) {
+        return Math.exp(-s * μ * t * (1 - ρ)) * PrDureeSejQueue0();
+    }
 }
