@@ -1,5 +1,7 @@
 package View;
 
+import Model.FileAttenteMMS;
+
 import javax.swing.border.EmptyBorder;
 
 
@@ -7,6 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 
 public class Fenetre extends JFrame {
 
@@ -18,6 +22,8 @@ public class Fenetre extends JFrame {
     private JTextField TxtLambdaMM1K;
     private JTextField TxtServiceMM1K;
     private JTextField TxtmaxKMM1K;
+    private JTextPane textPaneMMS;
+    private JTextPane textPaneMM1K;
 
     public Fenetre() {
         setBackground(new Color(230, 230, 250));
@@ -25,7 +31,7 @@ public class Fenetre extends JFrame {
 
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(/*1800, 800*/475, 529);
+        setSize(475, 529);
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(300, 250));
 
@@ -78,7 +84,14 @@ public class Fenetre extends JFrame {
         BtnCalculerMMS.setBackground(new Color(152, 251, 152));
         BtnCalculerMMS.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("CALCULER");
+                try{
+                        FileAttenteMMS mms = new FileAttenteMMS(Double.parseDouble(TxtLambdaMMS.getText()), Double.parseDouble(TxtServiceMMS.getText()), Integer.parseInt(TxtServeurMMS.getText()));
+                        StyledDocument DocMMS = (StyledDocument)textPaneMMS.getDocument();
+                        DocMMS.insertString(0, "OK", textPaneMMS.getStyle("default"));
+                        
+
+
+                } catch (BadLocationException err) { }
             }
         });
         BtnCalculerMMS.setFont(new Font("Tekton Pro", Font.BOLD, 16));
@@ -115,7 +128,7 @@ public class Fenetre extends JFrame {
         panTextResultatMMS.setLayout(new GridLayout(1, 1, 0, 0));
         panTextResultatMMS.setLayout(new GridLayout(1, 1, 0, 0));
 
-        JTextPane textPaneMMS = new JTextPane();
+        textPaneMMS = new JTextPane();
         panTextResultatMMS.add(textPaneMMS);
 
         /////////////////////////////////////////////////////////////////////////
@@ -190,7 +203,7 @@ public class Fenetre extends JFrame {
         panTextResultatMM1K.setLayout(new GridLayout(1, 1, 0, 0));
         panTextResultatMM1K.setLayout(new GridLayout(1, 1, 0, 0));
 
-        JTextPane textPaneMM1K = new JTextPane();
+        textPaneMM1K = new JTextPane();
         panTextResultatMM1K.add(textPaneMM1K);
 
         /////////////////////////////////////////////////////////////////////////
