@@ -144,6 +144,12 @@ public class Fenetre extends JFrame {
         textPaneMMS = new JTextPane();
         panTextResultatMMS.add(textPaneMMS);
 
+        JScrollPane scrollPaneMMS = new JScrollPane(textPaneMMS,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        panTextResultatMMS.add(scrollPaneMMS);
+        scrollPaneMMS.setBounds(0, 0, 200, 300);
+
         /////////////////////////////////////////////////////////////////////////
         //////////////////////////////  	MM1K	 ////////////////////////////
         /////////////////////////////////////////////////////////////////////////
@@ -234,6 +240,12 @@ public class Fenetre extends JFrame {
 
         textPaneMM1K = new JTextPane();
         panTextResultatMM1K.add(textPaneMM1K);
+
+        JScrollPane scrollPaneMM1K = new JScrollPane(textPaneMM1K,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        panTextResultatMM1K.add(scrollPaneMM1K);
+        scrollPaneMM1K.setBounds(0, 0, 200, 300);
 
         /////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////
