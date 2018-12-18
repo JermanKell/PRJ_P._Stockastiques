@@ -42,6 +42,7 @@ public class FileAttenteMMS extends FileAttente {
     // Constructeur de la classe
     public FileAttenteMMS(double lambda, double mu, int serveurs) {
         super(lambda, mu);
+        s = serveurs;
         ρ = (λ/(s*μ));
         if(ρ >= 1)
             throw new IllegalArgumentException("λ/(s*μ) doit etre inférieur a 1");
