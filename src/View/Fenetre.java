@@ -26,6 +26,9 @@ public class Fenetre extends JFrame {
     private JTextPane textPaneMMS;
     private JTextPane textPaneMM1K;
 
+    private JScrollPane jspMMS = new JScrollPane(textPaneMMS);
+    private JScrollPane jspMM1K = new JScrollPane(textPaneMM1K);
+
     public Fenetre() {
         setBackground(new Color(230, 230, 250));
         setTitle("Calculateur | Files d'attentes");
@@ -88,8 +91,16 @@ public class Fenetre extends JFrame {
                 try{
                         FileAttenteMMS mms = new FileAttenteMMS(parse(TxtLambdaMMS.getText().replace(',', '.')), parse(TxtServiceMMS.getText().replace(',', '.')), Integer.parseInt(TxtServeurMMS.getText().replace(',', '.')));
                         StyledDocument DocMMS = (StyledDocument)textPaneMMS.getDocument();
+                        textPaneMMS.setText("");
                         String chaine = "";
-                        //chaine += ""
+                        chaine += "Nombre de clients en attente dans la file Lq = " + String.format("%.04f", mms.getLq()) + "\n";
+                        chaine += "Nombre de client dans le système L = " + String.format("%.04f", mms.getL()) + "\n";
+                        chaine += "Duree moyenne d'attente d'un client dans la file Wq = " + String.format("%.04f", mms.getWq()) + "\n";
+                        chaine += "Duree moyenne d'attente d'un client dans le systeme W = " + String.format("%.04f", mms.getW()) + "\n";
+                        chaine += "Probabilite d'etre à l'etat q0 = " + String.format("%.04f", mms.getQ0()) + "\n";
+                        for(int i= 1; i <= 10; i++) {
+                            chaine += "Probabilite d'etre à l'etat q" + i + " = " + String.format("%.04f", mms.getQj(i)) + "\n";
+                        }
 
                         DocMMS.insertString(0, chaine, textPaneMMS.getStyle("default"));
 
@@ -168,15 +179,23 @@ public class Fenetre extends JFrame {
         BtnCalculerMM1K.setBackground(new Color(250, 235, 215));
         BtnCalculerMM1K.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                FileAttenteMM1K mms = new FileAttenteMM1K(parse(TxtLambdaMM1K.getText().replace(',', '.')), parse(TxtServiceMM1K.getText().replace(',', '.')), Integer.parseInt(TxtmaxKMM1K.getText().replace(',', '.')));
-                StyledDocument DocMM1K = (StyledDocument)textPaneMM1K.getDocument();
-                String chaine = "";
-                //chaine += ""
+                try{
+                    FileAttenteMM1K mm1k = new FileAttenteMM1K(parse(TxtLambdaMM1K.getText().replace(',', '.')), parse(TxtServiceMM1K.getText().replace(',', '.')), Integer.parseInt(TxtmaxKMM1K.getText().replace(',', '.')));
+                    StyledDocument DocMM1K = (StyledDocument)textPaneMM1K.getDocument();
+                    textPaneMM1K.setText("");
+                    String chaine = "";
+                    chaine += "Nombre de clients en attente dans la file Lq = " + String.format("%.04f", mm1k.getLq()) + "\n";
+                    chaine += "Nombre de client dans le système L = " + String.format("%.04f", mm1k.getL()) + "\n";
+                    chaine += "Duree moyenne d'attente d'un client dans la file Wq = " + String.format("%.04f", mm1k.getWq()) + "\n";
+                    chaine += "Duree moyenne d'attente d'un client dans le systeme W = " + String.format("%.04f", mm1k.getW()) + "\n";
+                    chaine += "Probabilite d'etre à l'etat q0 = " + String.format("%.04f", mm1k.getQ0()) + "\n";
+                    for(int i= 1; i <= Integer.parseInt(TxtmaxKMM1K.getText().replace(',', '.')); i++) {
+                        chaine += "Probabilite d'etre à l'etat q" + i + " = " + String.format("%.04f", mm1k.getQj(i)) + "\n";
+                    }
 
-                DocMM1K.insertString(0, chaine, textPaneMM1K.getStyle("default"));
+                    DocMM1K.insertString(0, chaine, textPaneMM1K.getStyle("default"));
 
-            } catch (Exception err) { new JOptionPane().showMessageDialog(null, err.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);}
+                } catch (Exception err) { new JOptionPane().showMessageDialog(null, err.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);}
             }
         });
         BtnCalculerMM1K.setFont(new Font("Tekton Pro", Font.BOLD, 16));
