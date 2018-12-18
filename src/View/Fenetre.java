@@ -1,5 +1,6 @@
 package View;
 
+import Model.FileAttenteMM1K;
 import Model.FileAttenteMMS;
 
 import javax.swing.border.EmptyBorder;
@@ -85,13 +86,14 @@ public class Fenetre extends JFrame {
         BtnCalculerMMS.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try{
-                        FileAttenteMMS mms = new FileAttenteMMS(Double.parseDouble(TxtLambdaMMS.getText()), Double.parseDouble(TxtServiceMMS.getText()), Integer.parseInt(TxtServeurMMS.getText()));
+                        FileAttenteMMS mms = new FileAttenteMMS(parse(TxtLambdaMMS.getText().replace(',', '.')), parse(TxtServiceMMS.getText().replace(',', '.')), Integer.parseInt(TxtServeurMMS.getText().replace(',', '.')));
                         StyledDocument DocMMS = (StyledDocument)textPaneMMS.getDocument();
-                        DocMMS.insertString(0, "OK", textPaneMMS.getStyle("default"));
-                        
+                        String chaine = "";
+                        //chaine += ""
 
+                        DocMMS.insertString(0, chaine, textPaneMMS.getStyle("default"));
 
-                } catch (BadLocationException err) { }
+                } catch (Exception err) { new JOptionPane().showMessageDialog(null, err.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);}
             }
         });
         BtnCalculerMMS.setFont(new Font("Tekton Pro", Font.BOLD, 16));
@@ -166,7 +168,15 @@ public class Fenetre extends JFrame {
         BtnCalculerMM1K.setBackground(new Color(250, 235, 215));
         BtnCalculerMM1K.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("CALCULER");
+                try {
+                FileAttenteMM1K mms = new FileAttenteMM1K(parse(TxtLambdaMM1K.getText().replace(',', '.')), parse(TxtServiceMM1K.getText().replace(',', '.')), Integer.parseInt(TxtmaxKMM1K.getText().replace(',', '.')));
+                StyledDocument DocMM1K = (StyledDocument)textPaneMM1K.getDocument();
+                String chaine = "";
+                //chaine += ""
+
+                DocMM1K.insertString(0, chaine, textPaneMM1K.getStyle("default"));
+
+            } catch (Exception err) { new JOptionPane().showMessageDialog(null, err.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);}
             }
         });
         BtnCalculerMM1K.setFont(new Font("Tekton Pro", Font.BOLD, 16));
@@ -212,6 +222,15 @@ public class Fenetre extends JFrame {
         addWindowListener(new WindowsEvent());
         tabbedPane.setSelectedIndex(0);
         setVisible(true);
+    }
+
+    double parse(String ratio) {
+        if (ratio.contains("/")) {
+            String[] rat = ratio.split("/");
+            return Double.parseDouble(rat[0]) / Double.parseDouble(rat[1]);
+        } else {
+            return Double.parseDouble(ratio);
+        }
     }
 
     class WindowsEvent implements WindowListener {

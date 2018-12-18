@@ -58,7 +58,7 @@ public class FileAttenteMM1K extends FileAttente {
 
     // Calcul proba d'être a l'etat j
     private double Qj(int j) {
-        if (j <=0) { throw new IllegalArgumentException("Paramètre j doit être supérieur à 0"); }
+        if (j <0) { throw new IllegalArgumentException("Paramètre j doit être supérieur à 0"); }
         else if (j > K) { throw new IllegalArgumentException("Paramètre j doit être inférieur ou egal à K"); }
         else if (ρ == 1){ return 1/(K+1); }
         else { return (1-(ρ)*(Math.pow(ρ, j)))/(1-(Math.pow(ρ, K+1))); }
