@@ -26,16 +26,19 @@ public class Fenetre extends JFrame {
     private JTextPane textPaneMMS;
     private JTextPane textPaneMM1K;
 
-    private JScrollPane jspMMS = new JScrollPane(textPaneMMS);
-    private JScrollPane jspMM1K = new JScrollPane(textPaneMM1K);
+    private JScrollPane scrollPaneMMS;
+    JScrollPane scrollPaneMM1K;
+    private JTextField TxtTpsSejSysMMS;
+    private JTextField LbTpsSejSysMM1K;
 
     public Fenetre() {
         setBackground(new Color(230, 230, 250));
         setTitle("Calculateur | Files d'attentes");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("icone.png"));
 
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(475, 529);
+        setSize(491, 529);
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(300, 250));
 
@@ -98,11 +101,15 @@ public class Fenetre extends JFrame {
                         chaine += "Duree moyenne d'attente d'un client dans la file Wq = " + String.format("%.04f", mms.getWq()) + "\n";
                         chaine += "Duree moyenne d'attente d'un client dans le systeme W = " + String.format("%.04f", mms.getW()) + "\n";
                         chaine += "Probabilite d'etre à l'etat q0 = " + String.format("%.04f", mms.getQ0()) + "\n";
+                        if (TxtTpsSejSysMMS.getText().length() > 0) {
+                            chaine += "Probabilite temps de sejour du client dans le systeme = " + String.format("%.04f", mms.getPrDureeSejSys(parse(TxtTpsSejSysMMS.getText().replace(',', '.')))) + "\n";
+                        }
                         for(int i= 1; i <= 10; i++) {
                             chaine += "Probabilite d'etre à l'etat q" + i + " = " + String.format("%.04f", mms.getQj(i)) + "\n";
                         }
 
                         DocMMS.insertString(0, chaine, textPaneMMS.getStyle("default"));
+                        textPaneMMS.setCaretPosition(0);
 
                 } catch (Exception err) { new JOptionPane().showMessageDialog(null, err.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);}
             }
@@ -137,6 +144,15 @@ public class Fenetre extends JFrame {
         TxtServeurMMS = new JTextField();
         panFormMMS.add(TxtServeurMMS);
         TxtServeurMMS.setColumns(10);
+
+        JLabel lbTpsSejsysMMS = new JLabel("Séjour dans le systeme t (opt) :   ");
+        lbTpsSejsysMMS.setHorizontalAlignment(SwingConstants.RIGHT);
+        panFormMMS.add(lbTpsSejsysMMS);
+
+        TxtTpsSejSysMMS = new JTextField();
+        TxtTpsSejSysMMS.setToolTipText("optionnel");
+        panFormMMS.add(TxtTpsSejSysMMS);
+        TxtTpsSejSysMMS.setColumns(10);
         panMMS.add(panTextResultatMMS);
         panTextResultatMMS.setLayout(new GridLayout(1, 1, 0, 0));
         panTextResultatMMS.setLayout(new GridLayout(1, 1, 0, 0));
@@ -144,7 +160,7 @@ public class Fenetre extends JFrame {
         textPaneMMS = new JTextPane();
         panTextResultatMMS.add(textPaneMMS);
 
-        JScrollPane scrollPaneMMS = new JScrollPane(textPaneMMS,
+        scrollPaneMMS = new JScrollPane(textPaneMMS,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         panTextResultatMMS.add(scrollPaneMMS);
@@ -195,11 +211,15 @@ public class Fenetre extends JFrame {
                     chaine += "Duree moyenne d'attente d'un client dans la file Wq = " + String.format("%.04f", mm1k.getWq()) + "\n";
                     chaine += "Duree moyenne d'attente d'un client dans le systeme W = " + String.format("%.04f", mm1k.getW()) + "\n";
                     chaine += "Probabilite d'etre à l'etat q0 = " + String.format("%.04f", mm1k.getQ0()) + "\n";
+                    if (LbTpsSejSysMM1K.getText().length() > 0) {
+                        chaine += "Probabilite temps de sejour du client dans le systeme = " + String.format("%.04f", mm1k.getPrDureeSejSys(parse(LbTpsSejSysMM1K.getText().replace(',', '.')))) + "\n";
+                    }
                     for(int i= 1; i <= Integer.parseInt(TxtmaxKMM1K.getText().replace(',', '.')); i++) {
                         chaine += "Probabilite d'etre à l'etat q" + i + " = " + String.format("%.04f", mm1k.getQj(i)) + "\n";
                     }
 
                     DocMM1K.insertString(0, chaine, textPaneMM1K.getStyle("default"));
+                    textPaneMM1K.setCaretPosition(0);
 
                 } catch (Exception err) { new JOptionPane().showMessageDialog(null, err.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);}
             }
@@ -234,6 +254,15 @@ public class Fenetre extends JFrame {
         TxtmaxKMM1K = new JTextField();
         panFormMM1K.add(TxtmaxKMM1K);
         TxtmaxKMM1K.setColumns(10);
+
+        JLabel lbTpsSejsysMM1K = new JLabel("Séjour dans le systeme t (opt) :   ");
+        lbTpsSejsysMM1K.setHorizontalAlignment(SwingConstants.RIGHT);
+        panFormMM1K.add(lbTpsSejsysMM1K);
+
+        LbTpsSejSysMM1K = new JTextField();
+        LbTpsSejSysMM1K.setToolTipText("optionnel");
+        panFormMM1K.add(LbTpsSejSysMM1K);
+        LbTpsSejSysMM1K.setColumns(10);
         panMM1K.add(panTextResultatMM1K);
         panTextResultatMM1K.setLayout(new GridLayout(1, 1, 0, 0));
         panTextResultatMM1K.setLayout(new GridLayout(1, 1, 0, 0));
@@ -241,7 +270,7 @@ public class Fenetre extends JFrame {
         textPaneMM1K = new JTextPane();
         panTextResultatMM1K.add(textPaneMM1K);
 
-        JScrollPane scrollPaneMM1K = new JScrollPane(textPaneMM1K,
+        scrollPaneMM1K = new JScrollPane(textPaneMM1K,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         panTextResultatMM1K.add(scrollPaneMM1K);
@@ -306,5 +335,9 @@ public class Fenetre extends JFrame {
             // TODO Auto-generated method stub
 
         }
+    }
+
+    public static void main(String[] args){
+        Fenetre fenetre =new Fenetre();
     }
 }
